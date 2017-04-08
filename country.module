@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ * Defines simple country field type.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Form element validate handler for country autocomplete element.
+ */
+function country_autocomplete_validate($element, FormStateInterface $form_state) {
+  if ($country = $element['#value']) {
+    $countries = \Drupal::service('country_manager')->getList();
+    $iso2 = array_search($country, $countries);
+    if (!empty($iso2)) {
+      $form_state->setValueForElement($element, $iso2);
+    }
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function country_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.country':
+      $output = '';
+      $output .= '&lt;h3&gt;' . t('Country') . '&lt;/h3&gt;';
+      $output .= '&lt;p&gt;' . t('The Country module defines a simple country field type for the Field module. It provides 2 widgets - select options and autocomplete textfield - for this purpose.  See the &lt;a href="!field-help">Field module help page&lt;/a&gt; for more information about fields.', array('!field-help' => url('admin/help/field_ui'))) . '&lt;/p&gt;';
+      return $output;
+  }
+}

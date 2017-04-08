@@ -1,0 +1,8 @@
+name: Country
+type: module
+description: Defines a simple country field type.
+package: Field types
+version: '8.x-1.x-dev'
+core: 8.x
+dependencies:
+  - field
